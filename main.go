@@ -6,5 +6,5 @@ import (
 )
 
 func main(){
-	fmt.Println(generate.Genedate_id(64))
+	fmt.Println(generate.Get_session())
 }
