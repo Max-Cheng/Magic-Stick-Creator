@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	url2 "net/url"
 	"strings"
 	"time"
 )
@@ -37,33 +36,34 @@ func Get_session() string {
 	return response.Header.Get("Set-Cookie")[:83]
 }
 
-func Get_image_info()  {
-	url:="http://osrecovery.apple.com/InstallationPayload/RecoveryImage"
-	data:=url2.Values{}
-	data.Add("cid",Genedate_id(16))
-	data.Add("k",Genedate_id(64))
-	data.Add("sn","00000000000000000")
-	data.Add("fg",Genedate_id(64))
-	data.Add("os","default")
-	data.Add("bid","Mac-"+Genedate_id(16))
-	reqest,err:=http.NewRequest("POST",url,strings.NewReader(data.Encode()))
-	if err!=nil{panic(err)}
-	reqest.Header.Set("Host","osrecovery.apple.com")
-	reqest.Header.Set("User-Agent","InternetRecovery/1.0")
-	reqest.Header.Set("Cookie",Get_session())
-	reqest.Header.Set("Expect","")
-	reqest.Header.Set("Content-Type","text/plain")
-	reqest.Header.Set("Connection","close")
-
-
-	response, err := (&http.Client{}).Do(reqest)
+func Get_image_info() map[string]string {
+	url := "http://osrecovery.apple.com/InstallationPayload/RecoveryImage"
+	method := "POST"
+	payload := strings.NewReader("cid=EE3029997629CF05\nk=EBDDC2B8CCE2493D7E9380F82C04999495C0724ED220D414AA3AB41E0DBD9D9A\nsn=00000000000000000\nfg=E723289F4F30BB3FED84594C9BED7EB7C52C614359A526D317D99FDF459A066B\nos=default\nbid=Mac-7BA5B2D9E42DDD94")
+	client := &http.Client {}
+	req, err := http.NewRequest(method, url, payload)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
-	defer response.Body.Close()
-	body_byte, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		panic(err)
+	req.Header.Add("Host", "osrecovery.apple.com")
+	req.Header.Add("Connection", "close")
+	req.Header.Add("User-Agent", "InternetRecovery/1.0")
+	req.Header.Add("Cookie", Get_session())
+	req.Header.Add("Content-Type", "text/plain")
+	req.Header.Add("Connection", "close")
+	req.Header.Add("Accept", "*/*")
+	req.Header.Add("Cache-Control", "no-cache")
+	req.Header.Add("Postman-Token", "d375c5bb-5a92-4a8b-8f9c-41083df18781")
+	req.Header.Add("Accept-Encoding", "gzip, deflate, br")
+	req.Header.Add("Content-Length", "212")
+
+	res, err := client.Do(req)
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	newbody:=(strings.Split(string(body),"\n"))
+	result:= map[string]string{}
+	for i:=0;i<len(newbody)-1;i++{
+		result[newbody[i][:2]]=newbody[i][4:len(newbody[i])]
 	}
-	fmt.Println(string(body_byte))
+	return result
 }

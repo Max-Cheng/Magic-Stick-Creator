@@ -1,64 +1,45 @@
 package download
 
 import (
+	"Nuc_Online_Installer/core"
 	"fmt"
-	"github.com/dustin/go-humanize"
 	"io"
 	"net/http"
 	"os"
 	"path"
-	"strings"
 )
-type WriteCounter struct {
-	Total uint64
-}
-func (wc *WriteCounter) Write(p []byte) (int, error) {
-	n := len(p)
-	wc.Total += uint64(n)
-	wc.PrintProgress()
-	return n, nil
-}
-// PrintProgress prints the progress of a file write
-func (wc WriteCounter) PrintProgress() {
-	// Clear the line by using a character return to go back to the start and remove
-	// the remaining characters by filling it with spaces
-	fmt.Printf("\r%s", strings.Repeat(" ", 50))
 
-	// Return again and print current status of download
-	// We use the humanize package to print the bytes in a meaningful way (e.g. 10 MB)
-	fmt.Printf("\rDownloading... %s complete", humanize.Bytes(wc.Total))
-}
-
-func DownloadFile(url string) error {
-	filepath:=path.Base(url)
-	out, err := os.Create(filepath + ".tmp")
+func Download(url, cookie string) {
+	if core.Exists("com.apple.recovery.boot/" + path.Base(url)) {
+		err:=os.Remove("com.apple.recovery.boot/" + path.Base(url))
+		if err != nil {
+			panic(err)
+		}
+	}
+	fmt.Println("正在下载"+path.Base(url)+"...")
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return err
+		// handle err
+	}
+	req.Host = "oscdn.apple.com"
+	req.Header.Set("Cookie", "AssetToken="+cookie)
+	req.Header.Set("User-Agent", "InternetRecovery/1.0")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		// handle err
+	}
+	defer resp.Body.Close()
+	out, err := os.Create("com.apple.recovery.boot/"+path.Base(url))
+	if err != nil {
+		panic(err)
 	}
 	defer out.Close()
 
-	// Get the data
-	resp, err := http.Get(url)
+	// 然后将响应流和文件流对接起来
+	_, err = io.Copy(out, resp.Body)
 	if err != nil {
-		return err
+		panic(err)
 	}
-	defer resp.Body.Close()
-
-	// Create our bytes counter and pass it to be used alongside our writer
-	counter := &WriteCounter{}
-	_, err = io.Copy(out, io.TeeReader(resp.Body, counter))
-	if err != nil {
-		return err
-	}
-
-	// The progress use the same line so print a new line once it's finished downloading
-	fmt.Println()
-
-	// Rename the tmp file back to the original file
-	err = os.Rename(filepath+".tmp", filepath)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	fmt.Println(path.Base(url)+"下载完成")
 }
