@@ -49,5 +49,17 @@ func main() {
 		}
 		download.Download(info["CU"],info["CT"])
 		download.Download(info["AU"],info["AT"])
+		Add_Details()
 	}
+}
+func Add_Details()  {
+	fileName := ".contentDetails"
+	dstFile,err := os.Create("com.apple.recovery.boot/"+fileName)
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	defer dstFile.Close()
+	s:="macOS Boot From Recovery"
+	dstFile.WriteString(s)
 }
