@@ -12,7 +12,7 @@ func main() {
 	var action string
 	fmt.Println("╔══════════════════════════════════════════════════╗")
 	fmt.Println( "║           macOS 在线安装U盘-制作工具             ║")
-	fmt.Println( "║                         2020-03-22  by 大穴深    ║")
+	fmt.Println( "║                         2020-03-22  by Co1a      ║")
 	fmt.Println( "║                                                  ║")
 	fmt.Println( "║      无需下载体积庞大的macOS镜像...              ║")
 	fmt.Println( "║                体验稳如白果的在线安装...         ║")
