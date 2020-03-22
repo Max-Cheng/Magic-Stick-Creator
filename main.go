@@ -1,10 +1,7 @@
 package main
 
-import (
-	"Nuc_Online_Installer/generate"
-	"fmt"
-)
+import "Nuc_Online_Installer/generate"
 
 func main(){
-	fmt.Println(generate.Get_session())
+	generate.Get_image_info()
 }
