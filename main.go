@@ -6,6 +6,7 @@ import (
 	"Nuc_Online_Installer/generate"
 	"fmt"
 	"os"
+	"time"
 )
 
 func main() {
@@ -34,26 +35,33 @@ func main() {
 	fmt.Println( "╚══════════════════════════════════════════════════╝")
 	fmt.Println( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
 	fmt.Scanf("%s",&action);
-	if action!="Y" {
-		fmt.Println("中止安装")
-		return
-	}else {
+	if action=="Y"||action=="y" {
 		info:=generate.Get_image_info()
 		if core.Exists("com.apple.recovery.boot") {
-			
-		}else{
-			err:=os.Mkdir("com.apple.recovery.boot",0755)
-			if err != nil {
-				panic(err)
-			}
+			err:=os.RemoveAll("com.apple.recovery.boot")
+			if err != nil {panic(err)}
+		}
+		err:=os.Mkdir("com.apple.recovery.boot",0755)
+		if err != nil {
+			panic(err)
 		}
 		download.Download(info["CU"],info["CT"])
 		download.Download(info["AU"],info["AT"])
 		Add_Details()
+		fmt.Println("安装完成")
+	}else {
+		fmt.Println("中止安装")
+		return
 	}
+	fmt.Println("将在3秒后自动退出")
+	time.Sleep(3*1e9)
 }
 func Add_Details()  {
 	fileName := ".contentDetails"
+	if core.Exists(fileName) {
+		err:=os.Remove(fileName)
+		if err != nil {panic(err)}
+	}
 	dstFile,err := os.Create("com.apple.recovery.boot/"+fileName)
 	if err!=nil{
 		fmt.Println(err.Error())

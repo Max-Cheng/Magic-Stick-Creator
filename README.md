@@ -7,7 +7,10 @@ OC的最新版本可以通过command+R进入recovery mod,然而一般的EFI分�
 # 使用方法
 - 准备一个1G左右的u盘（分区为fat32)
 - 准备一个**可启动**的OCEFI
-- 将EFI解压至U盘根目录并运行此程序
+- 将EFI解压至U盘根目录并将此程序移动至u盘根目录
+- 运行此程序
+- 开机后选择U盘启动项后疯狂按command(win)+R
+- Done
 # TODO
 - [ ] EFI自动同步  
 - [ ] 多线程下载
