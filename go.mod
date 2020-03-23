@@ -1,4 +1,4 @@
-module Nuc_Online_Installer
+module Magic-Stick-Creater
 
 go 1.14
 

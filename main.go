@@ -1,9 +1,9 @@
 package main
 
 import (
-	"Nuc_Online_Installer/core"
-	"Nuc_Online_Installer/download"
-	"Nuc_Online_Installer/generate"
+	"Magic-Stick-Creater/core"
+	"Magic-Stick-Creater/download"
+	"Magic-Stick-Creater/generate"
 	"fmt"
 	"os"
 	"time"

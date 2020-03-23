@@ -1,7 +1,7 @@
 package download
 
 import (
-	"Nuc_Online_Installer/core"
+	"Magic-Stick-Creater/core"
 	"fmt"
 	"io"
 	"net/http"
