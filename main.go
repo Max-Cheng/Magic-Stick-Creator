@@ -1,8 +1,8 @@
 package main
 
 import (
+	"Magic-Stick-Creator/config"
 	"Magic-Stick-Creator/core"
-	"Magic-Stick-Creator/download"
 	"Magic-Stick-Creator/generate"
 	"fmt"
 	"os"
@@ -36,17 +36,11 @@ func main() {
 	fmt.Println( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
 	fmt.Scanf("%s",&action);
 	if action=="Y"||action=="y" {
-		info:=generate.Get_image_info()
-		if core.Exists("com.apple.recovery.boot") {
-			err:=os.RemoveAll("com.apple.recovery.boot")
-			if err != nil {panic(err)}
+		if core.Exists(config.Path) {
+			os.Remove(config.Path)
 		}
-		err:=os.Mkdir("com.apple.recovery.boot",0755)
-		if err != nil {
-			panic(err)
-		}
-		download.Download(info["CU"],info["CT"])
-		download.Download(info["AU"],info["AT"])
+		os.Mkdir(config.Path,0755)
+		core.Download_image(generate.Get_image_info())
 		Add_Details()
 		fmt.Println("安装完成")
 	}else {
@@ -62,7 +56,7 @@ func Add_Details()  {
 		err:=os.Remove(fileName)
 		if err != nil {panic(err)}
 	}
-	dstFile,err := os.Create("com.apple.recovery.boot/"+fileName)
+	dstFile,err := os.Create(config.Path+"/"+fileName)
 	if err!=nil{
 		fmt.Println(err.Error())
 		return
