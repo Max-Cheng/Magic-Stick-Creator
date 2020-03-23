@@ -1,7 +1,7 @@
 package download
 
 import (
-	"Magic-Stick-Creater/core"
+	"Magic-Stick-Creator/core"
 	"fmt"
 	"io"
 	"net/http"

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"Magic-Stick-Creater/core"
-	"Magic-Stick-Creater/download"
-	"Magic-Stick-Creater/generate"
+	"Magic-Stick-Creator/core"
+	"Magic-Stick-Creator/download"
+	"Magic-Stick-Creator/generate"
 	"fmt"
 	"os"
 	"time"
