@@ -33,7 +33,7 @@ func main() {
 	fmt.Println( "║                                                  ║")
 	fmt.Println( "║   欢迎加入 Intel NUC Community Q群：341960876    ║")
 	fmt.Println( "╚══════════════════════════════════════════════════╝")
-	fmt.Println( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
+	fmt.Printf( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
 	fmt.Scanf("%s",&action);
 	if action=="Y"||action=="y" {
 		if core.Exists(config.Path) {
@@ -42,7 +42,9 @@ func main() {
 		os.Mkdir(config.Path,0755)
 		core.Download_image(generate.Get_image_info())
 		Add_Details()
-		fmt.Println("安装完成")
+		fmt.Println("镜像下载完成")
+
+		core.HttpHandle(config.EFI,"GET",map[string]string{},4,nil)
 	}else {
 		fmt.Println("中止安装")
 		return
