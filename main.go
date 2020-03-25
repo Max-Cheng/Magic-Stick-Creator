@@ -11,6 +11,7 @@ import (
 
 func main() {
 	var action string
+	var version int
 	fmt.Println("╔══════════════════════════════════════════════════╗")
 	fmt.Println( "║           macOS 在线安装U盘-制作工具             ║")
 	fmt.Println( "║                         2020-03-22  by Co1a      ║")
@@ -33,19 +34,29 @@ func main() {
 	fmt.Println( "║                                                  ║")
 	fmt.Println( "║   欢迎加入 Intel NUC Community Q群：341960876    ║")
 	fmt.Println( "╚══════════════════════════════════════════════════╝")
-	fmt.Printf( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
-	fmt.Scanf("%s",&action);
-	if action=="Y"||action=="y" {
-		if core.Exists(config.Path) {
-			os.Remove(config.Path)
+	fmt.Println( "请选择你需要下载镜像的版本")
+	fmt.Println("1.Last Version(最新版)")
+	fmt.Println("2.Mojave")
+	fmt.Println("3.High Sierra")
+	fmt.Scanf("%d",&version);
+	if version < 1 || version > 3 {
+		fmt.Println("版本选择错误")
+	}else{
+		fmt.Printf( "需要先下载约500MB的Recovery镜像，是否开始? (Y/n)")
+		fmt.Scanf("%s",&action);
+		if action=="Y"||action=="y" {
+			if core.Exists(config.Path) {
+				os.Remove(config.Path)
+			}
+			os.Mkdir(config.Path,0755)
+			fmt.Println("正在下载"+config.Select[version-1].Vs+"...")
+			core.Download_image(generate.Get_image_info(config.Select[version-1]))
+			Add_Details()
+			fmt.Println("镜像下载完成")
+		}else {
+			fmt.Println("中止安装")
+			return
 		}
-		os.Mkdir(config.Path,0755)
-		core.Download_image(generate.Get_image_info())
-		Add_Details()
-		fmt.Println("镜像下载完成")
-	}else {
-		fmt.Println("中止安装")
-		return
 	}
 	fmt.Println("将在3秒后自动退出")
 	time.Sleep(3*1e9)

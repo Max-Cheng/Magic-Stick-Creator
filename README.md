@@ -30,7 +30,7 @@
 
 ## 关于此项目
 
-本项目的初衷源自于小白黑苹果安装的问题，选择从U盘启动，在线安装，一气呵成，本项目部分结构源自于[[weachy](https://www.jianshu.com/u/82ec04331356)]大佬的一键下载白果恢复镜像。
+本项目的初衷源自于小白黑苹果安装的问题，选择从U盘启动，在线安装，一气呵成，本项目部分结构源自于[维奇](https://www.jianshu.com/u/82ec04331356)大佬的一键下载白果恢复镜像,以及[acidanthera](https://github.com/acidanthera)大佬的[MacInfoPkg](https://github.com/acidanthera/MacInfoPkg).
 
 ## 关于黑果的一部分思考
 
