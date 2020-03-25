@@ -43,8 +43,6 @@ func main() {
 		core.Download_image(generate.Get_image_info())
 		Add_Details()
 		fmt.Println("镜像下载完成")
-
-		core.HttpHandle(config.EFI,"GET",map[string]string{},4,nil)
 	}else {
 		fmt.Println("中止安装")
 		return
