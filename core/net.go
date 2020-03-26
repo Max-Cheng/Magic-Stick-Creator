@@ -3,12 +3,16 @@ package core
 import (
 	"Magic-Stick-Creator/config"
 	"fmt"
+	"gopkg.in/cheggaaa/pb.v1"
+	_ "gopkg.in/cheggaaa/pb.v1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
+	"strconv"
 	"strings"
+	"time"
 )
 func Download_image(UrlAndCookie map[string]string){
 	HttpHandle(UrlAndCookie["CU"],"GET",map[string]string{"Cookie":"AssetToken="+UrlAndCookie["CT"]},3,nil)
@@ -67,17 +71,24 @@ func HttpHandle(url,method string,cookie map[string]string,mod int,Body io.Reade
 			}
 		}
 		fmt.Println("正在下载"+path.Base(url)+"...")
+		i, _ := strconv.Atoi(response.Header.Get("Content-Length"))
+		sourceSiz := int64(i)
+		source := response.Body
+		bar := pb.New(int(sourceSiz)).SetUnits(pb.U_BYTES_DEC).SetRefreshRate(time.Millisecond * 10)
+		bar.ShowSpeed = true
+		bar.ShowTimeLeft = true
+		bar.ShowFinalTime = true
+		width,_:=pb.GetTerminalWidth()
+		bar.SetWidth(width)
+		bar.Start()
 		out, err := os.Create(config.Path+"/"+path.Base(url))
 		if err != nil {
 			panic(err)
 		}
 		defer out.Close()
-
-		// 然后将响应流和文件流对接起来
-		_, err = io.Copy(out, response.Body)
-		if err != nil {
-			panic(err)
-		}
+		writer := io.MultiWriter(out, bar)
+		io.Copy(writer, source)
+		bar.Finish()
 		fmt.Println(path.Base(url)+"下载完成")
 	}
 	return ""

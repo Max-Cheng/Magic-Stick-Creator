@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+
 )
 
 func main() {
@@ -39,13 +40,13 @@ func main() {
 		fmt.Println("版本选择错误")
 	}else{
 		fmt.Printf( "需要先下载约500MB的Recovery镜像，是否开始? [Y/n]")
-		fmt.Scanf("%s",&action);
+		fmt.Scan(&action);
 		if action=="Y"||action=="y" {
 			if core.Exists(config.Path) {
 				os.Remove(config.Path)
 			}
 			os.Mkdir(config.Path,0755)
-			fmt.Println("正在下载"+config.Select[version-1].Vs+"...")
+			fmt.Println("选择了"+config.Select[version-1].Vs+"版本...")
 			core.Download_image(generate.Get_image_info(config.Select[version-1]))
 			Add_Details()
 			fmt.Println("镜像下载完成")
