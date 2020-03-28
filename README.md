@@ -41,6 +41,7 @@
 如果这个项目有帮助到你，请给我一个Star,如果有相应功能建议,欢迎在Issuse提出,同时也欢迎各位老哥大赏，谢谢！
 # 打赏
 ## 支付宝
-![9F403FF45FAD20BFFF634995C8F35E73.png](https://i.loli.net/2020/03/28/zhEjeOA67TfkNr5.jpg)
+<img src="https://i.loli.net/2020/03/28/zhEjeOA67TfkNr5.jpg" alt="9F403FF45FAD20BFFF634995C8F35E73.png" style="zoom:33%;" />
+
 ## 微信
-![IMG_0454_20200328-233136_.JPG](https://i.loli.net/2020/03/28/BGs2fRzEKSWcexv.jpg)
+<img src="https://i.loli.net/2020/03/28/BGs2fRzEKSWcexv.jpg" alt="IMG_0454_20200328-233136_.JPG" style="zoom:33%;" />
