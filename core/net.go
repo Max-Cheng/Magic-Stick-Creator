@@ -76,7 +76,7 @@ func HttpHandle(url,method string,cookie map[string]string,mod int,Body io.Reade
 		source := response.Body
 		bar := pb.New(int(sourceSiz)).SetUnits(pb.U_BYTES_DEC).SetRefreshRate(time.Millisecond * 10)
 		bar.ShowSpeed = true
-		bar.ShowTimeLeft = true
+		bar.ShowTimeLeft = false
 		bar.ShowFinalTime = true
 		width,_:=pb.GetTerminalWidth()
 		bar.SetWidth(width)
