@@ -74,5 +74,4 @@ Coming soon....
 
 请我喝瓶可乐？
 
-<img src="https://i.loli.net/2020/03/29/cG6i4UvrjfJmOSA.jpg" alt="IMG_0455_20200328-233254_.JPG" style="zoom: 50%;"/><img src="https://i.loli.net/2020/03/29/rxiF74MC2c5UePq.jpg" alt="IMG_0459_20200329-194304_.JPG" style="zoom:25%;"/>
-
+<img src="https://i.loli.net/2020/03/29/rxiF74MC2c5UePq.jpg" width="249.2"><img src="https://i.loli.net/2020/03/29/cG6i4UvrjfJmOSA.jpg" width="249.2"  >
