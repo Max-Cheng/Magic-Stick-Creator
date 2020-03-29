@@ -1,8 +1,6 @@
 package core
 
 import (
-	"Magic-Stick-Creator/config"
-	"encoding/hex"
 	"fmt"
 	"howett.net/plist"
 	"os"
@@ -18,33 +16,53 @@ func Exists(path string) bool {
 	}
 	return true
 }
-func ReadSN(mod int){
-	buf,err:=os.Open("config.plist")
+func ChangeSN(mod int){
+	//1:Clover to OC.
+	//2:OC to OC
+	//Read User config.plist
+	Target,err:=os.Open("clover.plist")
 	if err != nil {
 		panic(err)
 	}
+	var Targetdata map[string]interface{}
+	decoder := plist.NewDecoder(Target)
+	derr := decoder.Decode(&Targetdata)
+	if derr != nil {
+		fmt.Println(derr)
+	}
+	//Read EFI plist
+	OC,err:=os.Open("EFI/OC/config.plist")
+	if err != nil {
+		panic(err)
+	}
+	var OCdata map[string]interface{}
+	EFIdecoder := plist.NewDecoder(OC)
+	EFIderr := EFIdecoder.Decode(&OCdata)
+	if EFIderr != nil {
+		fmt.Println(derr)
+	}
+	//Create New config.plist
+	newfile,err:=os.Create("EFI/OC/config.plist")
+	if err!=nil {
+		panic(err)
+	}
+	//New Encoder
+	a:=plist.NewEncoder(newfile)
+	a.Indent("    ")
 	switch mod {
-	case 1:var data config.Clover
-		decoder := plist.NewDecoder(buf)
-		derr := decoder.Decode(&data)
-		if derr != nil {
-			fmt.Println(derr)
-		}
-		fmt.Println("MLB:"+data.RtVariables.RtValue.MLB)
-		fmt.Println("ROM:"+hex.EncodeToString(data.RtVariables.RtValue.ROM))
-		fmt.Println("SystemUUID:"+data.SystemParameters.SPvalue.CustomUUID)
-		fmt.Println("SystemSerialNumber:"+data.SMBIOS.SMValue.SerialNumber)
+	case 1:
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["MLB"]=Targetdata["SMBIOS"].(map[string]interface{})["BoardSerialNumber"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["ROM"]=Targetdata["RtVariables"].(map[string]interface{})["ROM"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemSerialNumber"]=Targetdata["SMBIOS"].(map[string]interface{})["SerialNumber"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemUUID"]=Targetdata["SystemParameters"].(map[string]interface{})["CustomUUID"]
+		a.Encode(OCdata)
 		break
-	case 2:var data config.OC
-		decoder := plist.NewDecoder(buf)
-		derr := decoder.Decode(&data)
-		if derr != nil {
-			fmt.Println(derr)
-		}
-		fmt.Println("MLB:"+data.PlatformInfo.PlatformInfo.Generic.MLB)
-		fmt.Println("SystemSerialNumber:"+data.PlatformInfo.PlatformInfo.Generic.SystemSerialNumber)
-		fmt.Println("SystemUUID:"+data.PlatformInfo.PlatformInfo.Generic.SystemUUID)
-		fmt.Println("ROM:"+hex.EncodeToString(data.PlatformInfo.PlatformInfo.Generic.ROM))
+	case 2:
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["MLB"]=Targetdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["MLB"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["ROM"]=Targetdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["ROM"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemSerialNumber"]=Targetdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemSerialNumber"]
+		OCdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemUUID"]=Targetdata["PlatformInfo"].(map[string]interface{})["Generic"].(map[string]interface{})["SystemUUID"]
+		a.Encode(OCdata)
 		break;
 	default:fmt.Println("选择错误");break;
 	}

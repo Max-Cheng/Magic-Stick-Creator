@@ -16,7 +16,7 @@ func main() {
 	if core.Exists("config.plist") {
 		var mod int
 		var ac string
-		fmt.Printf("监测到存在plist，是否提取三码[Y/n]")
+		fmt.Printf("监测到存在plist，是否进行三码迁移(若plist中没有3码谨慎操作)[Y/n]")
 		fmt.Scan(&ac)
 		if ac == "y" || ac == "Y" {
 			fmt.Println("请选择你的plist版本")
@@ -26,10 +26,10 @@ func main() {
 			if mod<=0||mod>2 {
 				fmt.Println("选择错误")
 			}else{
-				core.ReadSN(mod)
+				core.ChangeSN(mod)
 			}
 		}
-		fmt.Println("退出三码提取")
+		fmt.Println("退出三码三码转移")
 	}
 	fmt.Println( "请选择你需要下载镜像的版本")
 	fmt.Println("1.Last Version(最新版)")
