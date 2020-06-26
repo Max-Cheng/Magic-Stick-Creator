@@ -66,10 +66,6 @@ Coming soon....
 
 [DHowett](https://github.com/DHowett):plist文件解析
 
-## 捐赠
-
-<img src="https://i.loli.net/2020/03/29/rxiF74MC2c5UePq.jpg" width="249.2"><img src="https://i.loli.net/2020/03/29/cG6i4UvrjfJmOSA.jpg" width="249.2"  >
-
 ## 免责声明
 
 本项目完全开源，免费，仅供技术学习和交流，**开发者团队并未授权任何组织、机构以及个人将其用于商业或者盈利性质的活动。也从未使用本项目进行任何盈利性活动。未来也不会将其用于开展营利性业务。个人或者组织，机构如果使用本项目产生的各类纠纷，法律问题，均由其本人承担。**
