@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"os"
 	"time"
-
 )
 
 func main() {
@@ -23,53 +22,55 @@ func main() {
 			fmt.Println("1.Clover")
 			fmt.Println("2.OC")
 			fmt.Scan(&mod)
-			if mod<=0||mod>2 {
+			if mod <= 0 || mod > 2 {
 				fmt.Println("选择错误")
-			}else{
+			} else {
 				core.ChangeSN(mod)
 			}
 		}
 		fmt.Println("退出三码三码转移")
 	}
-	fmt.Println( "请选择你需要下载镜像的版本")
-	fmt.Println("1.Last Version(最新版)")
-	fmt.Println("2.Mojave")
-	fmt.Println("3.High Sierra")
-	fmt.Scan(&version);
-	if version < 1 || version > 3 {
-		fmt.Println("版本选择错误")
-	}else{
-		fmt.Printf( "需要先下载约500MB的Recovery镜像，是否开始? [Y/n]")
-		fmt.Scan(&action);
-		if action=="Y"||action=="y" {
+	fmt.Println("请选择你需要下载镜像的版本")
+	for i, v := range config.Select {
+		fmt.Println(i, v.Vs)
+	}
+	fmt.Scan(&version)
+	if version < 0 || version > len(config.Select)-1 {
+		panic("版本选择错误")
+	} else {
+		fmt.Printf("需要先下载约500MB的Recovery镜像，是否开始? [Y/n]")
+		fmt.Scan(&action)
+		if action == "Y" || action == "y" {
 			if core.Exists(config.Path) {
 				os.Remove(config.Path)
 			}
-			os.Mkdir(config.Path,0755)
-			fmt.Println("选择了"+config.Select[version-1].Vs+"版本...")
-			core.Download_image(generate.Get_image_info(config.Select[version-1]))
+			os.Mkdir(config.Path, 0755)
+			fmt.Println("选择了" + config.Select[version].Vs + "版本...")
+			core.Download_image(generate.Get_image_info(config.Select[version]))
 			Add_Details()
 			fmt.Println("镜像下载完成")
-		}else {
+		} else {
 			fmt.Println("中止安装")
 			return
 		}
 	}
 	fmt.Println("将在3秒后自动退出")
-	time.Sleep(3*1e9)
+	time.Sleep(3 * 1e9)
 }
-func Add_Details()  {
+func Add_Details() {
 	fileName := ".contentDetails"
 	if core.Exists(fileName) {
-		err:=os.Remove(fileName)
-		if err != nil {panic(err)}
+		err := os.Remove(fileName)
+		if err != nil {
+			panic(err)
+		}
 	}
-	dstFile,err := os.Create(config.Path+"/"+fileName)
-	if err!=nil{
+	dstFile, err := os.Create(config.Path + "/" + fileName)
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 	defer dstFile.Close()
-	s:="macOS Boot From Recovery"
+	s := "macOS Boot From Recovery"
 	dstFile.WriteString(s)
 }
