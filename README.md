@@ -40,11 +40,11 @@ You can submit bugs/features by submitting issues, and I will do my best to impl
 
 ## ToDo List
 
-- [x] 三码读取
-- [x] 三码迁移
-- [ ] 自动生成三码
-- [ ] EFI download online(这方面可能要思考一段时间找出最优解,欢迎👏在issues提出你的想法)
-- [ ] 自动寻址
+- [x] Read SN/SmUUID/MLB
+- [x] Transform SN/SmUUID/MLB
+- [ ] Generate SN/SmUUID/MLB
+- [ ] EFI download online
+- [ ] Automatic Update(Online EFI download?)
 
 ## Thanks For
 
