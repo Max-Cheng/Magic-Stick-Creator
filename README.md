@@ -10,7 +10,7 @@ A tool of download Mac Recovery Image for OpenCore User/Creater.
 
 ## Quick Start
 
-You need to repair a OpenCore EFI(**MUST CAN WORT**)
+You need to repair a OpenCore EFI(**MUST CAN WORK**)
 
 ### Windows
 
